@@ -19,7 +19,7 @@ public class ItemManager {
             enderBagItem = new ItemStack(Material.ENDER_EYE, 1);
             ItemMeta meta = enderBagItem.getItemMeta();
             meta.setDisplayName("§aEnder Bag");
-            meta.setLore(Arrays.asList("§bOpen your ender chest."));
+            meta.setLore(Arrays.asList("§bOpen your ender chest"));
             meta.addEnchant(Enchantment.DURABILITY, 1, false);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             enderBagItem.setItemMeta(meta);

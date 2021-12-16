@@ -19,7 +19,7 @@ public class EventListener implements Listener {
             if(event.getItem() != null) {
                 if(event.getItem().getItemMeta().equals(ItemManager.getEnderBagItem().getItemMeta())) {
                     player.openInventory(player.getEnderChest());
-                    player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, 1, 1);
+                    player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
                     event.setCancelled(true);
                 }
             }
