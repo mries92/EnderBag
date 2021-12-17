@@ -1,0 +1,14 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "item/ender_eye"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 10
+      },
+      "model": "item/ender_bag"
+    }
+  ]
+}
