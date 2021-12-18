@@ -1,0 +1,44 @@
+### General Settings ###
+# The name of the item in-game
+item-name: "Ender Bag"
+# The description of the item in-game
+item-description: "Open your ender chest"
+# Should the description be shown?
+show-description: true
+# Should the item have an enchanted appearance? This helps distinguish the item if not using the resource pack
+appear-enchanted: false
+# The base item to use as the "model" (If this is changed from `ender_eye` and you use the
+# resource pack, you will need to update the pack to point to the correct item)
+base-item: "ender_eye"
+
+### Cooldown Settings ###
+# Should there be a cooldown on use?
+cooldown: false
+# Time between usages of the item
+cooldown-time: 2m
+# Message shown when you attempt to use the item before it is ready
+cooldown-message: "You cannot use the %n yet."
+
+### Durability Settings ###
+# Should the item have durability
+durability: false
+# What is the maximum durability
+max-durability: 1000
+# Durability subtracted per use (see safe-durability)
+durability-per-use: 1
+# Durability will only be subtracted if an item is inserted/taken from the chest
+safe-durability: false
+
+### Recipe Settings ###
+# Recipe for the item
+recipe:
+  values: [
+    "DED",
+    "ECE",
+    "DED"
+  ]
+  key: [
+    ["D", "diamond"],
+    ["E", "ender_eye"],
+    ["C", "ender_chest"]
+  ]
