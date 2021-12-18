@@ -1,8 +1,8 @@
 ### General Settings ###
 # The name of the item in-game
-item-name: "Ender Bag"
+item-name: "§aEnder Bag"
 # The description of the item in-game
-item-description: "Open your ender chest"
+item-description: "§bOpen your ender chest"
 # Should the description be shown?
 show-description: true
 # Should the item have an enchanted appearance? This helps distinguish the item if not using the resource pack
@@ -28,6 +28,8 @@ max-durability: 1000
 durability-per-use: 1
 # Durability will only be subtracted if an item is inserted/taken from the chest
 safe-durability: false
+# Should the item be completely destroyed at 0 health?
+unbreakable: true;
 
 ### Recipe Settings ###
 # Recipe for the item
