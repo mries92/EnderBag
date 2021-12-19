@@ -1,7 +1,6 @@
 package mries.EnderBag;
 
 import mries.EnderBag.config.EnderBagConfig;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,10 +9,9 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerItemMendEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
@@ -39,6 +37,8 @@ public class EventListener implements Listener {
                 if(isEnderBag != 0) {
                     player.openInventory(player.getEnderChest());
                     player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
+                    container.set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte)1);
+                    event.getItem().setItemMeta(meta);
                     event.setCancelled(true);
                 }
             }
@@ -51,48 +51,38 @@ public class EventListener implements Listener {
         if(config.durability) {
             if(event.getInventory().getType() == InventoryType.ENDER_CHEST) {
                 // Check players inventory
-                event.getPlayer().getInventory().forEach(itemStack -> {
-                    if(ItemManager.isEnderChest(itemStack)) {
-                        ItemMeta meta = itemStack.getItemMeta();
-                        // Check the durability
-                        Integer currentHealth = meta.getPersistentDataContainer().get(ItemManager.getEnderBagDurabilityKey(), PersistentDataType.INTEGER);
-                        if(currentHealth <= 0) {
-                            event.getPlayer().getInventory().remove(itemStack);
-                        } else {
-                            currentHealth -= config.durabilityPerUse;
-                            meta.getPersistentDataContainer().set(ItemManager.getEnderBagDurabilityKey(), PersistentDataType.INTEGER, currentHealth);
-                            meta.setLore(Arrays.asList(config.itemDescription, String.format("Durability: %d/%d" , currentHealth, config.maxDurability)));
-                            itemStack.setItemMeta(meta);
-                        }
-                    }
-                });
-
-                // Check in case they put the bag inside itself at 0 health
-                event.getInventory().forEach(itemStack -> {
-                    if(ItemManager.isEnderChest(itemStack)) {
-                        // Check the durability
-                        Integer currentHealth = itemStack.getItemMeta().getPersistentDataContainer().get(ItemManager.getEnderBagDurabilityKey(), PersistentDataType.INTEGER);
-                        if(currentHealth <= 0) {
-                            event.getInventory().remove(itemStack);
-                        } else {
-                            itemStack.getItemMeta().setLore(Arrays.asList(config.itemDescription, String.format("Durability: %d/%d" , currentHealth, config.maxDurability)));
-                        }
-                    }
-                });
+                updateDurabilityInInventory(event.getPlayer().getInventory());
+                // Check ender chest inventory
+                updateDurabilityInInventory(event.getInventory());
             }
         }
     }
 
-    // If the correct items are placed into the anvil, put a repaired version of the ender bag in the output
-    @EventHandler
-    public static void repairEvent(PrepareAnvilEvent event) {
-
-    }
-
-    // When the player interacts with the repaired bag, we can do some stuff
-    @EventHandler
-    public static void interactEvent(InventoryInteractEvent event) {
-
+    /**
+     * Search through an inventory and update the durability of any open ender bags. This is
+     * called after an inventory is closed, rather than when the item is used.
+     * @param inv
+     */
+    private static void updateDurabilityInInventory(Inventory inv) {
+        inv.forEach(stack -> {
+            if(stack != null) {
+                ItemMeta meta = stack.getItemMeta();
+                Byte isOpen = meta.getPersistentDataContainer().get(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE);
+                if(isOpen != null && isOpen == 1) {
+                    // Check the durability
+                    Integer currentHealth = meta.getPersistentDataContainer().get(ItemManager.getEnderBagDurabilityKey(), PersistentDataType.INTEGER);
+                    if(currentHealth <= 1) {
+                        inv.remove(stack);
+                    } else {
+                        currentHealth -= config.durabilityPerUse;
+                        meta.getPersistentDataContainer().set(ItemManager.getEnderBagDurabilityKey(), PersistentDataType.INTEGER, currentHealth);
+                        meta.setLore(Arrays.asList(config.itemDescription, String.format("Durability: %d/%d" , currentHealth, config.maxDurability)));
+                        meta.getPersistentDataContainer().set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte)0);
+                        stack.setItemMeta(meta);
+                    }
+                }
+            }
+        });
     }
 
     // These handlers will update any old versions of the item when config values are changed
@@ -106,14 +96,14 @@ public class EventListener implements Listener {
         event.getInventory().forEach(EventListener::updateItemInInventory);
     }
 
+    private static void updateItemInInventory(ItemStack stack) {
+        if(ItemManager.isEnderChest(stack))
+            ItemManager.UpdateItemStack(stack);
+    }
+
     @EventHandler
     public static void entityPickup(EntityPickupItemEvent event) {
         if(ItemManager.isEnderChest(event.getItem().getItemStack()))
             ItemManager.UpdateItemStack(event.getItem().getItemStack());
-    }
-
-    private static void updateItemInInventory(ItemStack stack) {
-        if(ItemManager.isEnderChest(stack))
-            ItemManager.UpdateItemStack(stack);
     }
 }

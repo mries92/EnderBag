@@ -20,11 +20,13 @@ import java.util.List;
 public class ItemManager {
     private static NamespacedKey enderBagKey = null;
     private static NamespacedKey enderBagDurabilityKey = null;
+    private static NamespacedKey enderBagOpenedKey = null;
     private static EnderBagConfig enderBagConfig = null;
 
     public static void Init(EnderBag plugin) {
-        enderBagKey = new NamespacedKey(plugin, "isEnderBag");
-        enderBagDurabilityKey = new NamespacedKey(plugin, "durability");
+        enderBagKey = new NamespacedKey(plugin, "isEnderBag");              // Tag key to indicate ender bag
+        enderBagDurabilityKey = new NamespacedKey(plugin, "durability");    // Custom durability
+        enderBagOpenedKey = new NamespacedKey(plugin, "opened");            // Tag key to indicate bag is open
         enderBagConfig = plugin.getConfiguration();
 
         ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
@@ -41,6 +43,7 @@ public class ItemManager {
 
     public static NamespacedKey getEnderBagKey() { return enderBagKey; }
     public static NamespacedKey getEnderBagDurabilityKey() { return enderBagDurabilityKey; }
+    public static NamespacedKey getEnderBagOpenedKey() { return enderBagOpenedKey; }
 
     /**
      * Utility function to determine if an item stack is an ender bag.
@@ -81,8 +84,10 @@ public class ItemManager {
             // Durability has been turned on, existing items do not have a health component yet
             if(currentHealth == null) {
                 currentHealth = enderBagConfig.maxDurability;
-                meta.getPersistentDataContainer().set(enderBagDurabilityKey, PersistentDataType.INTEGER, currentHealth);
+            } else if(currentHealth > enderBagConfig.maxDurability) {
+                currentHealth = enderBagConfig.maxDurability;
             }
+            meta.getPersistentDataContainer().set(enderBagDurabilityKey, PersistentDataType.INTEGER, currentHealth);
             lore.add(String.format("Durability: %d/%d" , currentHealth, enderBagConfig.maxDurability));
         }
         // TODO: Remove durability on items if turned off
