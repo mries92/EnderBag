@@ -1,0 +1,18 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "java",
+			"targetPath": "${workspaceFolder}/out/EnderBag.jar",
+			"elements": [
+				"${compileOutput}"
+			],
+			"problemMatcher": [],
+			"label": "java: exportjar:EnderBag",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+}
