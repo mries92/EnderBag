@@ -1,10 +1,12 @@
 package mries.EnderBag.config;
 
-import mries.EnderBag.EnderBag;
 import org.bukkit.configuration.file.FileConfiguration;
+
+import lombok.Data;
 
 import java.util.List;
 
+@Data
 public class EnderBagConfig {
     public EnderBagConfig(FileConfiguration config) {
         itemName = config.getString("item-name");
@@ -25,20 +27,20 @@ public class EnderBagConfig {
         recipeKeys = (List<List<String>>) config.getList("recipe.key");
     }
 
-    public String itemName;
-    public String itemDescription;
-    public Boolean showDescription;
-    public Boolean appearEnchanted;
-    public String baseItem;
-    public Boolean cooldown;
-    public String cooldownTime;
-    public String cooldownMessage;
-    public Boolean durability;
-    public Integer maxDurability;
-    public Integer durabilityPerUse;
-    public Boolean safeDurability;
-    public Boolean unbreakable;
+    public final String itemName;
+    public final String itemDescription;
+    public final Boolean showDescription;
+    public final Boolean appearEnchanted;
+    public final String baseItem;
+    public final Boolean cooldown;
+    public final String cooldownTime;
+    public final String cooldownMessage;
+    public final Boolean durability;
+    public final Integer maxDurability;
+    public final Integer durabilityPerUse;
+    public final Boolean safeDurability;
+    public final Boolean unbreakable;
 
-    public List<String> recipeValues;
-    public List<List<String>> recipeKeys;
+    public final List<String> recipeValues;
+    public final List<List<String>> recipeKeys;
 }

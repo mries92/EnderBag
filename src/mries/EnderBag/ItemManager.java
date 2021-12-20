@@ -9,12 +9,10 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
-import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ItemManager {
@@ -90,7 +88,6 @@ public class ItemManager {
             meta.getPersistentDataContainer().set(enderBagDurabilityKey, PersistentDataType.INTEGER, currentHealth);
             lore.add(String.format("Durability: %d/%d" , currentHealth, enderBagConfig.maxDurability));
         }
-        // TODO: Remove durability on items if turned off
         meta.setLore(lore);
         // Enchanted appearance
         if(enderBagConfig.appearEnchanted) {
