@@ -1,0 +1,7 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/home/mike/lib/paper-1.18.1-77.jar",
+        "/home/mike/lib/spigot-api-1.18.1-R0.1-20211214.010138-4.jar"
+    ]
+}
