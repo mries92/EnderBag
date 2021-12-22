@@ -17,8 +17,12 @@ import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EventListener implements Listener {
+    // A list of player IDs to their "last used time" for the ender bag
+    private static Map<String, Long> cooldowns = new HashMap<>();
     private static EnderBagConfig config = null;
 
     public EventListener(EnderBag plugin) {
@@ -30,11 +34,20 @@ public class EventListener implements Listener {
         Action action = event.getAction();
         Player player = event.getPlayer();
         if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-            if(event.getItem() != null) {
+            if(event.getItem() != null && ItemManager.isEnderChest(event.getItem())) {
                 ItemMeta meta = event.getItem().getItemMeta();
                 PersistentDataContainer container = meta.getPersistentDataContainer();
-                Byte isEnderBag = container.getOrDefault(ItemManager.getEnderBagKey(), PersistentDataType.BYTE, (byte)0);
-                if(isEnderBag != 0) {
+                // TODO check if cooldown is enabled
+                if(config.cooldown) {
+                    Long timestamp = cooldowns.get(event.getPlayer().getUniqueId().toString());
+                    // Not on cooldown
+                    if(timestamp == null) {
+                        // TODO set the model data to cooldown
+                        
+                    } else {
+                        player.sendTitle("Cooldown", "The ender bag is on cooldown.", 1, 3, 1);
+                    }
+                } else {
                     player.openInventory(player.getEnderChest());
                     player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
                     container.set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte)1);
@@ -61,7 +74,7 @@ public class EventListener implements Listener {
     /**
      * Search through an inventory and update the durability of any open ender bags. This is
      * called after an inventory is closed, rather than when the item is used.
-     * @param inv
+     * @param inv An inventory to check
      */
     private static void updateDurabilityInInventory(Inventory inv) {
         inv.forEach(stack -> {
@@ -79,6 +92,7 @@ public class EventListener implements Listener {
                         meta.setLore(Arrays.asList(config.itemDescription, String.format("Durability: %d/%d" , currentHealth, config.maxDurability)));
                         meta.getPersistentDataContainer().set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte)0);
                         stack.setItemMeta(meta);
+                        // TODO update model data based on current health
                     }
                 }
             }

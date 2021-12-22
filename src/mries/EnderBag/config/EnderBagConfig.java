@@ -22,6 +22,7 @@ public class EnderBagConfig {
         durabilityPerUse = config.getInt("durability-per-use");
         safeDurability = config.getBoolean("safe-durability");
         unbreakable = config.getBoolean("unbreakable");
+        uid = config.getInt("uid");
 
         recipeValues = config.getStringList("recipe.values");
         recipeKeys = (List<List<String>>) config.getList("recipe.key");
@@ -40,6 +41,7 @@ public class EnderBagConfig {
     public final Integer durabilityPerUse;
     public final Boolean safeDurability;
     public final Boolean unbreakable;
+    public final Integer uid;
 
     public final List<String> recipeValues;
     public final List<List<String>> recipeKeys;
