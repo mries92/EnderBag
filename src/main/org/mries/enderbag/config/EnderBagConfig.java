@@ -1,4 +1,4 @@
-package mries.EnderBag.config;
+package org.mries.enderbag.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 

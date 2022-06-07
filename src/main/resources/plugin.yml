@@ -1,5 +1,5 @@
 name: EnderBag
 author: Mike Ries
 version: 1.0.0
-main: mries.EnderBag.EnderBag
+main: org.mries.enderbag.EnderBag
 api-version: "1.13"

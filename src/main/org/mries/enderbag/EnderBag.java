@@ -1,6 +1,6 @@
-package mries.EnderBag;
+package org.mries.enderbag;
 
-import mries.EnderBag.config.EnderBagConfig;
+import org.mries.enderbag.config.EnderBagConfig;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class EnderBag extends JavaPlugin {

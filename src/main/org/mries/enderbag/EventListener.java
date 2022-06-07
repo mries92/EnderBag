@@ -1,6 +1,6 @@
-package mries.EnderBag;
+package org.mries.enderbag;
 
-import mries.EnderBag.config.EnderBagConfig;
+import org.mries.enderbag.config.EnderBagConfig;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

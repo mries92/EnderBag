@@ -1,10 +1,9 @@
-package mries.EnderBag;
+package org.mries.enderbag;
 
-import mries.EnderBag.config.EnderBagConfig;
+import org.mries.enderbag.config.EnderBagConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
