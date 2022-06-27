@@ -33,7 +33,7 @@
         </dependency>
     </dependencies>
     <build>
-        <sourceDirectory>src/main/org/mries/enderbag</sourceDirectory>
+        <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
         <resources>
             <resource>
                 <directory>${project.basedir}/src/main/resources</directory>
