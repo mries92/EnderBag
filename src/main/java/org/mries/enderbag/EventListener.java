@@ -26,6 +26,7 @@ public class EventListener implements Listener {
     private static EnderBagConfig config = null;
 
     public EventListener(EnderBag plugin) {
+        super();
         EventListener.config = plugin.getConfiguration();
     }
 
@@ -34,7 +35,7 @@ public class EventListener implements Listener {
         Action action = event.getAction();
         Player player = event.getPlayer();
         if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-            if(event.getItem() != null && ItemManager.isEnderChest(event.getItem())) {
+            if(event.getItem() != null && ItemManager.isEnderChest(event.getItem()) && !event.getClickedBlock().getType().isInteractable()) {
                 ItemMeta meta = event.getItem().getItemMeta();
                 PersistentDataContainer container = meta.getPersistentDataContainer();
                 // TODO check if cooldown is enabled
