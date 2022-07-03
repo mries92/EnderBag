@@ -1,7 +1,10 @@
 package org.mries.enderbag;
 
 import org.mries.enderbag.config.EnderBagConfig;
+import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.Tag;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,7 +38,14 @@ public class EventListener implements Listener {
         Action action = event.getAction();
         Player player = event.getPlayer();
         if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-            if(event.getItem() != null && ItemManager.isEnderChest(event.getItem()) && !event.getClickedBlock().getType().isInteractable()) {
+            if(event.getItem() != null && ItemManager.isEnderChest(event.getItem())) {
+                // If the block is an interactable type, cancel opening the bag
+                Block clickedBlock = event.getClickedBlock();
+                if(clickedBlock != null) {
+                    if(clickedBlock.getType().isInteractable() && !Tag.STAIRS.isTagged(clickedBlock.getType()))
+                        return;
+                }
+                event.setCancelled(true);
                 ItemMeta meta = event.getItem().getItemMeta();
                 PersistentDataContainer container = meta.getPersistentDataContainer();
                 // TODO check if cooldown is enabled
@@ -53,7 +63,6 @@ public class EventListener implements Listener {
                     player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
                     container.set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte)1);
                     event.getItem().setItemMeta(meta);
-                    event.setCancelled(true);
                 }
             }
         }
