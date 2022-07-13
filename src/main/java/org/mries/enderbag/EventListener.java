@@ -37,31 +37,33 @@ public class EventListener implements Listener {
     public static void onRightClick(PlayerInteractEvent event) {
         Action action = event.getAction();
         Player player = event.getPlayer();
-        if(action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-            if(event.getItem() != null && ItemManager.isEnderChest(event.getItem())) {
+        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
+            if (event.getItem() != null && ItemManager.isEnderChest(event.getItem())) {
                 // If the block is an interactable type, cancel opening the bag
                 Block clickedBlock = event.getClickedBlock();
-                if(clickedBlock != null) {
-                    if(clickedBlock.getType().isInteractable() && !Tag.STAIRS.isTagged(clickedBlock.getType()))
+                if (clickedBlock != null) {
+                    Material mat = clickedBlock.getType();
+                    if (mat.isInteractable()
+                            && !Tag.STAIRS.isTagged(mat) // Stairs are for some reason marked interactable
+                            && mat != Material.JUKEBOX) // Default ender eye behavior is to use on jukeboxes
                         return;
                 }
                 event.setCancelled(true);
                 ItemMeta meta = event.getItem().getItemMeta();
                 PersistentDataContainer container = meta.getPersistentDataContainer();
                 // TODO check if cooldown is enabled
-                if(config.cooldown) {
+                if (config.cooldown) {
                     Long timestamp = cooldowns.get(event.getPlayer().getUniqueId().toString());
                     // Not on cooldown
-                    if(timestamp == null) {
+                    if (timestamp == null) {
                         // TODO set the model data to cooldown
-                        
                     } else {
                         player.sendTitle("Cooldown", "The ender bag is on cooldown.", 1, 3, 1);
                     }
                 } else {
                     player.openInventory(player.getEnderChest());
                     player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
-                    container.set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte)1);
+                    container.set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte) 1);
                     event.getItem().setItemMeta(meta);
                 }
             }
@@ -71,8 +73,8 @@ public class EventListener implements Listener {
     // Check if the ender bag needs to be destroyed when closed
     @EventHandler
     public static void inventoryClosed(InventoryCloseEvent event) {
-        if(config.durability) {
-            if(event.getInventory().getType() == InventoryType.ENDER_CHEST) {
+        if (config.durability) {
+            if (event.getInventory().getType() == InventoryType.ENDER_CHEST) {
                 // Check players inventory
                 updateDurabilityInInventory(event.getPlayer().getInventory());
                 // Check ender chest inventory
@@ -82,25 +84,32 @@ public class EventListener implements Listener {
     }
 
     /**
-     * Search through an inventory and update the durability of any open ender bags. This is
+     * Search through an inventory and update the durability of any open ender bags.
+     * This is
      * called after an inventory is closed, rather than when the item is used.
+     * 
      * @param inv An inventory to check
      */
     private static void updateDurabilityInInventory(Inventory inv) {
         inv.forEach(stack -> {
-            if(stack != null) {
+            if (stack != null) {
                 ItemMeta meta = stack.getItemMeta();
-                Byte isOpen = meta.getPersistentDataContainer().get(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE);
-                if(isOpen != null && isOpen == 1) {
+                Byte isOpen = meta.getPersistentDataContainer().get(ItemManager.getEnderBagOpenedKey(),
+                        PersistentDataType.BYTE);
+                if (isOpen != null && isOpen == 1) {
                     // Check the durability
-                    Integer currentHealth = meta.getPersistentDataContainer().get(ItemManager.getEnderBagDurabilityKey(), PersistentDataType.INTEGER);
-                    if(currentHealth <= 1) {
+                    Integer currentHealth = meta.getPersistentDataContainer()
+                            .get(ItemManager.getEnderBagDurabilityKey(), PersistentDataType.INTEGER);
+                    if (currentHealth <= 1) {
                         inv.remove(stack);
                     } else {
                         currentHealth -= config.durabilityPerUse;
-                        meta.getPersistentDataContainer().set(ItemManager.getEnderBagDurabilityKey(), PersistentDataType.INTEGER, currentHealth);
-                        meta.setLore(Arrays.asList(config.itemDescription, String.format("Durability: %d/%d" , currentHealth, config.maxDurability)));
-                        meta.getPersistentDataContainer().set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte)0);
+                        meta.getPersistentDataContainer().set(ItemManager.getEnderBagDurabilityKey(),
+                                PersistentDataType.INTEGER, currentHealth);
+                        meta.setLore(Arrays.asList(config.itemDescription,
+                                String.format("Durability: %d/%d", currentHealth, config.maxDurability)));
+                        meta.getPersistentDataContainer().set(ItemManager.getEnderBagOpenedKey(),
+                                PersistentDataType.BYTE, (byte) 0);
                         stack.setItemMeta(meta);
                         // TODO update model data based on current health
                     }
@@ -109,7 +118,8 @@ public class EventListener implements Listener {
         });
     }
 
-    // These handlers will update any old versions of the item when config values are changed
+    // These handlers will update any old versions of the item when config values
+    // are changed
     @EventHandler
     public static void playerJoin(PlayerJoinEvent event) {
         event.getPlayer().getInventory().forEach(EventListener::updateItemInInventory);
@@ -121,13 +131,13 @@ public class EventListener implements Listener {
     }
 
     private static void updateItemInInventory(ItemStack stack) {
-        if(ItemManager.isEnderChest(stack))
+        if (ItemManager.isEnderChest(stack))
             ItemManager.UpdateItemStack(stack);
     }
 
     @EventHandler
     public static void entityPickup(EntityPickupItemEvent event) {
-        if(ItemManager.isEnderChest(event.getItem().getItemStack()))
+        if (ItemManager.isEnderChest(event.getItem().getItemStack()))
             ItemManager.UpdateItemStack(event.getItem().getItemStack());
     }
 }
