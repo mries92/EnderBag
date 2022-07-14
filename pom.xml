@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.mries</groupId>
-    <artifactId>enderbag</artifactId>
+    <artifactId>EnderBag</artifactId>
     <version>1.0.0</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
