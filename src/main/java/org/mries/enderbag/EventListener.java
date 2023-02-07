@@ -16,10 +16,14 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
+import org.mries.enderbag.config.EnderBagConfig;
 
 public class EventListener implements Listener {
+    private static EnderBagConfig config = null;
+
     public EventListener(EnderBag plugin) {
         super();
+        EventListener.config = plugin.getConfiguration();
     }
 
     @EventHandler
@@ -29,17 +33,21 @@ public class EventListener implements Listener {
         ItemStack item = event.getItem();
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
             if (item != null && ItemManager.isEnderChest(item)) {
-                // If the block is an interactable type, cancel opening the bag
-                Block clickedBlock = event.getClickedBlock();
-                if (clickedBlock != null) {
-                    Material mat = clickedBlock.getType();
-                    if (mat.isInteractable()
-                            && !Tag.STAIRS.isTagged(mat) // Stairs are for some reason marked interactable
-                            && mat != Material.JUKEBOX) // Default ender eye behavior is to use on jukeboxes
-                        return;
-                }
                 event.setCancelled(true);
-                openInventory(player, item);
+                if (player.hasPermission("enderbag.use")) {
+                    // If the block is an interactable type, cancel opening the bag
+                    Block clickedBlock = event.getClickedBlock();
+                    if (clickedBlock != null) {
+                        Material mat = clickedBlock.getType();
+                        if (mat.isInteractable()
+                                && !Tag.STAIRS.isTagged(mat) // Stairs are for some reason marked interactable
+                                && mat != Material.JUKEBOX) // Default ender eye behavior is to use on jukeboxes
+                            return;
+                    }
+                    openInventory(player, item);
+                } else {
+                    player.sendMessage("§cYou do not have permission to use the " + config.itemName);
+                }
             }
         }
     }

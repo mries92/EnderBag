@@ -3,8 +3,6 @@
 ---
 ## Features
 - A configurable custom item which provides access to the ender chest when right clicked.
-- An `/enderbag` command which opens the ender chest directly, includes aliases.
-- Both features can be disabled entirely if you only want one or the other.
 - Resource pack support, the item can be skinned to look like a native item.
 
 ## Configuration Options
@@ -12,16 +10,7 @@
 - **Custom name and lore** - Don't like the name "Ender Bag"? You can name and describe the item however you want in the config.
 
 ## Permissions
-`enderbag.item.use` - Allows the player to use the ender bag item  
-`enderbag.command.use` - Allows the player to use the ender bag command  
-`enderbag.give` - Allows the player to give an ender bag to themselves or other players
-
-## Commands
-**NOTE:** `/enderbag` is the base command, but it can be subsituted with `/enderchest`, `/eb`, or `/ec`  
-
-`/ec help` - Get information about the mod and list commands  
-`/ec` - Open the ender chest  
-`/ec give` - Give the player an ender chest  
+`enderbag.use` - Allows the player to use the ender bag item  
 
 ## Resource pack
 This plugin applies `custom_model_data` to the new item. This allows a resource pack to apply a unique skin, and even change the skin based on certain conditions. The custom model data is described below, along with a standard resource pack. 
