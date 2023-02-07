@@ -20,6 +20,6 @@ This plugin applies `custom_model_data` to the new item. This allows a resource 
 This is my placeholder programmer art pack <sub><sup>*I color shifted the bundle ;)*</sup></sub> It is enough to give the ender bag a unique look. If anybody creates a better
 resource pack and doesn't mind sharing, I would love to replace replace the "official pack" or start listing them here.
 
-[EnderBag Resource Pack](http://mries.org/PUBLIC/EnderBag_Resource_Pack.zip) - Compatible pack. Feel free to extract assets and combine with your servers existing resource pack.
+[EnderBag Resource Pack](https://drive.google.com/file/d/1vIv1Z1259-t373P2_PKatjWAa9zHaqwh/view?usp=sharing) - Compatible pack. Feel free to extract assets and combine with your servers existing resource pack.
 
 From `1.18`, you can force clients to use your resource pack in `server.properties`. Point it to a hosted compatible resource pack and clients will download it when they join.
