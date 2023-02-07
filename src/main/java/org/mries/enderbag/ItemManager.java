@@ -21,46 +21,58 @@ public class ItemManager {
     private static EnderBagConfig enderBagConfig = null;
 
     public static void Init(EnderBag plugin) {
-        enderBagKey = new NamespacedKey(plugin, "isEnderBag");              // Tag key to indicate ender bag
-        enderBagDurabilityKey = new NamespacedKey(plugin, "durability");    // Custom durability
-        enderBagOpenedKey = new NamespacedKey(plugin, "opened");            // Tag key to indicate bag is open
+        enderBagKey = new NamespacedKey(plugin, "isEnderBag"); // Tag key to indicate ender bag
+        enderBagDurabilityKey = new NamespacedKey(plugin, "durability"); // Custom durability
+        enderBagOpenedKey = new NamespacedKey(plugin, "opened"); // Tag key to indicate bag is open
         enderBagConfig = plugin.getConfiguration();
 
         ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
         UpdateItemStack(stack);
 
-        // TODO: Handle error cases
         ShapedRecipe recipe = new ShapedRecipe(enderBagKey, stack);
-        recipe.shape(enderBagConfig.recipeValues.get(0), enderBagConfig.recipeValues.get(1), enderBagConfig.recipeValues.get(2));
+        recipe.shape(enderBagConfig.recipeValues.get(0), enderBagConfig.recipeValues.get(1),
+                enderBagConfig.recipeValues.get(2));
         enderBagConfig.recipeKeys.forEach(pair -> {
             recipe.setIngredient(pair.get(0).charAt(0), Material.getMaterial(pair.get(1).toUpperCase()));
         });
         Bukkit.addRecipe(recipe);
     }
 
-    public static NamespacedKey getEnderBagKey() { return enderBagKey; }
-    public static NamespacedKey getEnderBagDurabilityKey() { return enderBagDurabilityKey; }
-    public static NamespacedKey getEnderBagOpenedKey() { return enderBagOpenedKey; }
+    public static NamespacedKey getEnderBagKey() {
+        return enderBagKey;
+    }
+
+    public static NamespacedKey getEnderBagDurabilityKey() {
+        return enderBagDurabilityKey;
+    }
+
+    public static NamespacedKey getEnderBagOpenedKey() {
+        return enderBagOpenedKey;
+    }
 
     /**
      * Utility function to determine if an item stack is an ender bag.
+     * 
      * @param stack An item stack to check.
      * @return true if the stack is an ender bag.
      */
     public static boolean isEnderChest(ItemStack stack) {
-        if(stack == null)
+        if (stack == null)
             return false;
-        Byte isEnderBag = stack.getItemMeta().getPersistentDataContainer().get(ItemManager.getEnderBagKey(), PersistentDataType.BYTE);
-        if(isEnderBag != null && isEnderBag == 1)
+        Byte isEnderBag = stack.getItemMeta().getPersistentDataContainer().get(ItemManager.getEnderBagKey(),
+                PersistentDataType.BYTE);
+        if (isEnderBag != null && isEnderBag == 1)
             return true;
         else
             return false;
     }
 
     /**
-     * Utility function to update existing item stack of ender bag based on configuration.
+     * Utility function that updates existing ender bags in players inventories
+     * after the configuration has been changed on the server.
      *
-     * @param stack An item stack. Will be updated to the current ender bag config values.
+     * @param stack An item stack. Will be updated to the current ender bag
+     *              config values.
      * @return The updated item stack.
      */
     public static ItemStack UpdateItemStack(ItemStack stack) {
@@ -74,28 +86,17 @@ public class ItemManager {
         meta.setDisplayName(enderBagConfig.itemName);
         // Description
         List<String> lore = new ArrayList<>();
-        if(enderBagConfig.showDescription)
+        if (enderBagConfig.showDescription)
             lore.add(enderBagConfig.itemDescription);
-        if(enderBagConfig.durability) {
-            Integer currentHealth = meta.getPersistentDataContainer().get(enderBagDurabilityKey, PersistentDataType.INTEGER);
-            // Durability has been turned on, existing items do not have a health component yet
-            if(currentHealth == null) {
-                currentHealth = enderBagConfig.maxDurability;
-            } else if(currentHealth > enderBagConfig.maxDurability) {
-                currentHealth = enderBagConfig.maxDurability;
-            }
-            meta.getPersistentDataContainer().set(enderBagDurabilityKey, PersistentDataType.INTEGER, currentHealth);
-            lore.add(String.format("Durability: %d/%d" , currentHealth, enderBagConfig.maxDurability));
-        }
         meta.setLore(lore);
         // Enchanted appearance
-        if(enderBagConfig.appearEnchanted) {
+        if (enderBagConfig.appearEnchanted) {
             meta.addEnchant(Enchantment.LURE, 1, true);
             meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         } else {
             meta.removeEnchant(Enchantment.LURE);
         }
-        meta.getPersistentDataContainer().set(enderBagKey, PersistentDataType.BYTE, (byte)1);
+        meta.getPersistentDataContainer().set(enderBagKey, PersistentDataType.BYTE, (byte) 1);
         meta.setCustomModelData(10);
         stack.setItemMeta(meta);
         return stack;

@@ -14,35 +14,6 @@ appear-enchanted: false
 # The base item to use as the "model" (If this is changed from `ender_eye` and you use the
 # resource pack, you will need to update the pack to point to the correct item)
 base-item: "ender_eye"
-# If your server has an economy plugin, this is the cost per use of the item
-cost-per-use: 0
-
-### Cooldown Settings ###
-# Should there be a cooldown on use?
-cooldown: false
-# Time between usages of the item
-cooldown-time: 2m
-# Message shown when you attempt to use the item before it is ready
-cooldown-message: "You cannot use the %n yet."
-
-### Durability Settings ###
-# Should the item have durability
-durability: false
-# What is the maximum durability
-max-durability: 100
-# Durability subtracted per use (see safe-durability)
-durability-per-use: 1
-# Durability will only be subtracted if an item is inserted/taken from the chest
-safe-durability: false
-# Should the item be completely destroyed at 0 health?
-unbreakable: true;
-# What item should be used for repairs at the anvil?
-repair-item: "ender_chest"
-# How much durability should a single repair restore?
-repair-amount: 100
-# The durability value where the bag will be marked as "damaged". Sets the model data as described in the readme.
-# -- Only relevant to clients if they are using a custom resource pack supporting this plugins model data --
-damaged-threshold: 50
 
 ### Recipe Settings ###
 # Recipe for the item
