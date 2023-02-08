@@ -12,6 +12,8 @@ public class EnderBag extends JavaPlugin {
         config = new EnderBagConfig(this.getConfig());
         ItemManager.Init(this);
         getServer().getPluginManager().registerEvents(new EventListener(this), this);
+        getCommand("enderbag").setExecutor(new CommandHandler());
+        getCommand("enderbag").setTabCompleter(new CommandTabCompleter());
     }
 
     public final EnderBagConfig getConfiguration() {

@@ -1,7 +1,6 @@
 package org.mries.enderbag;
 
 import org.bukkit.Material;
-import org.bukkit.Sound;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -13,9 +12,6 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.persistence.PersistentDataType;
 import org.mries.enderbag.config.EnderBagConfig;
 
 public class EventListener implements Listener {
@@ -44,7 +40,7 @@ public class EventListener implements Listener {
                                 && mat != Material.JUKEBOX) // Default ender eye behavior is to use on jukeboxes
                             return;
                     }
-                    openInventory(player, item);
+                    ItemManager.openInventory(player);
                 } else {
                     player.sendMessage("§cYou do not have permission to use the " + config.itemName);
                 }
@@ -67,15 +63,6 @@ public class EventListener implements Listener {
     @EventHandler
     public static void entityPickup(EntityPickupItemEvent event) {
         updateItemInInventory(event.getItem().getItemStack());
-    }
-
-    private static void openInventory(Player player, ItemStack item) {
-        ItemMeta meta = item.getItemMeta();
-        PersistentDataContainer container = meta.getPersistentDataContainer();
-        player.openInventory(player.getEnderChest());
-        player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
-        container.set(ItemManager.getEnderBagOpenedKey(), PersistentDataType.BYTE, (byte) 1);
-        item.setItemMeta(meta);
     }
 
     private static void updateItemInInventory(ItemStack stack) {

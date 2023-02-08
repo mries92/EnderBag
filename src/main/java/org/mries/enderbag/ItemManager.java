@@ -4,7 +4,9 @@ import org.mries.enderbag.config.EnderBagConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -16,14 +18,10 @@ import java.util.List;
 
 public class ItemManager {
     private static NamespacedKey enderBagKey = null;
-    private static NamespacedKey enderBagDurabilityKey = null;
-    private static NamespacedKey enderBagOpenedKey = null;
     private static EnderBagConfig enderBagConfig = null;
 
     public static void Init(EnderBag plugin) {
         enderBagKey = new NamespacedKey(plugin, "isEnderBag"); // Tag key to indicate ender bag
-        enderBagDurabilityKey = new NamespacedKey(plugin, "durability"); // Custom durability
-        enderBagOpenedKey = new NamespacedKey(plugin, "opened"); // Tag key to indicate bag is open
         enderBagConfig = plugin.getConfiguration();
 
         ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
@@ -40,14 +38,6 @@ public class ItemManager {
 
     public static NamespacedKey getEnderBagKey() {
         return enderBagKey;
-    }
-
-    public static NamespacedKey getEnderBagDurabilityKey() {
-        return enderBagDurabilityKey;
-    }
-
-    public static NamespacedKey getEnderBagOpenedKey() {
-        return enderBagOpenedKey;
     }
 
     /**
@@ -100,5 +90,10 @@ public class ItemManager {
         meta.setCustomModelData(10);
         stack.setItemMeta(meta);
         return stack;
+    }
+
+    public static void openInventory(Player player) {
+        player.openInventory(player.getEnderChest());
+        player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
     }
 }
