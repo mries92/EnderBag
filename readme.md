@@ -16,8 +16,8 @@
 `enderbag.give.others` - Allows you to give ender bags to others
 
 ## Commands
-/enderbag - Open the ender bag
-/enderbag give <player> - Give an ender bag to a player. If player is ommited, gives to yourself.
+/enderbag - Open the ender bag  
+/enderbag give <player> - Give an ender bag to a player. If player is ommited, gives to yourself.  
 
 ## Resource pack
 This plugin applies `custom_model_data` to the new item. This allows a resource pack to apply a unique skin, and even change the skin based on certain conditions. The custom model data is described below, along with a standard resource pack. 
