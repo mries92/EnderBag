@@ -7,13 +7,17 @@
 
 ## Configuration Options
 - **Custom recipe** - Define a custom recipe for the item. Want it to be incredibly difficult to obtain? Make it cost a few wither stars.
-- **Custom name and lore** - Don't like the name "Ender Bag"? You can name and describe the item however you want in the config.
+- **Custom name and description** - Don't like the name "Ender Bag"? You can name and describe the item however you want in the config.
 
 ## Permissions
 `enderbag.use` - Allows the player to use the ender bag item  
 `enderbag.command` - Allows you to open the ender bag with a slash command /enderbag
 `enderbag.give.self` - Allows you to give yourself an ender bag
 `enderbag.give.others` - Allows you to give ender bags to others
+
+## Commands
+/enderbag - Open the ender bag
+/enderbag give <player> - Give an ender bag to a player. If player is ommited, gives to yourself.
 
 ## Resource pack
 This plugin applies `custom_model_data` to the new item. This allows a resource pack to apply a unique skin, and even change the skin based on certain conditions. The custom model data is described below, along with a standard resource pack. 
