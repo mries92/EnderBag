@@ -11,9 +11,9 @@
 
 ## Permissions
 `enderbag.use` - Allows the player to use the ender bag item  
-`enderbag.command` - Allows you to open the ender bag with a slash command /enderbag
-`enderbag.give.self` - Allows you to give yourself an ender bag
-`enderbag.give.others` - Allows you to give ender bags to others
+`enderbag.command` - Allows you to open the ender bag with a slash command /enderbag  
+`enderbag.give.self` - Allows you to give yourself an ender bag  
+`enderbag.give.others` - Allows you to give ender bags to others  
 
 ## Commands
 /enderbag - Open the ender bag  
