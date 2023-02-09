@@ -11,6 +11,9 @@
 
 ## Permissions
 `enderbag.use` - Allows the player to use the ender bag item  
+`enderbag.command` - Allows you to open the ender bag with a slash command /enderbag
+`enderbag.give.self` - Allows you to give yourself an ender bag
+`enderbag.give.others` - Allows you to give ender bags to others
 
 ## Resource pack
 This plugin applies `custom_model_data` to the new item. This allows a resource pack to apply a unique skin, and even change the skin based on certain conditions. The custom model data is described below, along with a standard resource pack. 
