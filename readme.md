@@ -30,3 +30,6 @@ resource pack and doesn't mind sharing, I would love to replace replace the "off
 [EnderBag Resource Pack](https://drive.google.com/file/d/1vIv1Z1259-t373P2_PKatjWAa9zHaqwh/view?usp=sharing) - Compatible pack. Feel free to extract assets and combine with your servers existing resource pack.
 
 From `1.18`, you can force clients to use your resource pack in `server.properties`. Point it to a hosted compatible resource pack and clients will download it when they join.
+
+## Softdepends
+When opening the ender bag, the displayed text will always be "Ender Chest", regardless of what the client language is set to. This can be fixed if you have ProtocolLib installed.
