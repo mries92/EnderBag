@@ -1,8 +1,9 @@
 name: EnderBag
 author: Roflsausage
-version: 1.1.0
+version: 1.2.0
 main: org.mries.enderbag.EnderBag
-api-version: "1.13"
+api-version: "1.18"
+softdepend: ["ProtocolLib"]
 permissions:
   enderbag.use:
     description: Allows you to use the ender bag

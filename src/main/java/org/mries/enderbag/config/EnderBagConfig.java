@@ -2,11 +2,8 @@ package org.mries.enderbag.config;
 
 import org.bukkit.configuration.file.FileConfiguration;
 
-import lombok.Data;
-
 import java.util.List;
 
-@Data
 public class EnderBagConfig {
     public EnderBagConfig(FileConfiguration config) {
         itemName = config.getString("item-name");

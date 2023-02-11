@@ -1,6 +1,10 @@
 package org.mries.enderbag;
 
 import org.mries.enderbag.config.EnderBagConfig;
+
+import com.comphenix.protocol.ProtocolLibrary;
+import com.comphenix.protocol.ProtocolManager;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -19,6 +23,7 @@ import java.util.List;
 public class ItemManager {
     private static NamespacedKey enderBagKey = null;
     private static EnderBagConfig enderBagConfig = null;
+    static ProtocolManager manager = ProtocolLibrary.getProtocolManager();
 
     public static void Init(EnderBag plugin) {
         enderBagKey = new NamespacedKey(plugin, "isEnderBag"); // Tag key to indicate ender bag
@@ -95,5 +100,8 @@ public class ItemManager {
     public static void openInventory(Player player) {
         player.openInventory(player.getEnderChest());
         player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
+            PacketManager.sendOpenPacket(player);
+        }
     }
 }

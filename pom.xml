@@ -5,7 +5,7 @@
 
     <groupId>org.mries</groupId>
     <artifactId>EnderBag</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -17,6 +17,10 @@
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
+        <repository>
+            <id>dmulloy2-repo</id>
+            <url>https://repo.dmulloy2.net/repository/public/</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>
@@ -25,11 +29,22 @@
             <version>1.18.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.24</version>
+            <groupId>com.comphenix.protocol</groupId>
+            <artifactId>ProtocolLib</artifactId>
+            <version>4.7.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot</artifactId>
+            <version>1.19.3-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.bstats</groupId>
+            <artifactId>bstats-bukkit</artifactId>
+            <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
@@ -44,5 +59,28 @@
                 </includes>
             </resource>
         </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <relocations>
+                        <relocation>
+                            <pattern>org.bstats</pattern>
+                            <shadedPattern>org.mries.enderbag.util</shadedPattern>
+                        </relocation>
+                    </relocations>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
     </build>
 </project>
