@@ -4,5 +4,4 @@ org/mries/enderbag/ItemManager.class
 org/mries/enderbag/EnderBag.class
 org/mries/enderbag/EventListener.class
 org/mries/enderbag/CommandTabCompleter.class
-org/mries/enderbag/compatibility/PacketHandler.class
 org/mries/enderbag/config/EnderBagConfig.class

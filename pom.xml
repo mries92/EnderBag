@@ -26,8 +26,11 @@
         <module>NMS_1_19_3</module>
         <module>NMS_1_14_4</module>
         <module>NMS_1_15_2</module>
-        <module>NMS_1_16_5</module>
+        <module>NMS_1_16_R1</module>
         <module>NMS_1_17_1</module>
         <module>NMS_1_18_2</module>
+        <module>CompatibilityLayer</module>
+        <module>NMS_1_16_R2</module>
+        <module>NMS_1_16_R3</module>
     </modules>
 </project>

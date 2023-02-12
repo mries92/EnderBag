@@ -1,5 +1,9 @@
 package org.mries.enderbag;
 
+import org.mries.enderbag.compatibility.NMS_1_13_2;
+import org.mries.enderbag.compatibility.NMS_1_14_4;
+import org.mries.enderbag.compatibility.NMS_1_15_2;
+import org.mries.enderbag.compatibility.PacketHandler;
 import org.mries.enderbag.config.EnderBagConfig;
 
 import com.comphenix.protocol.ProtocolLibrary;
@@ -23,11 +27,35 @@ import java.util.List;
 public class ItemManager {
     private static NamespacedKey enderBagKey = null;
     private static EnderBagConfig enderBagConfig = null;
-    static ProtocolManager manager = ProtocolLibrary.getProtocolManager();
+    static PacketHandler handler = null;
 
     public static void Init(EnderBag plugin) {
         enderBagKey = new NamespacedKey(plugin, "isEnderBag"); // Tag key to indicate ender bag
         enderBagConfig = plugin.getConfiguration();
+        // If protocol lib is installed, initialize the packet handler
+        if (Bukkit.getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
+            String versionString = Bukkit.getServer().getClass().getPackage().getName();
+            String nmsVersionString = versionString.substring(versionString.lastIndexOf('.') + 1);
+            plugin.getLogger().info("Got NMS version string: " + nmsVersionString);
+            switch (nmsVersionString) {
+                case "v1_13_R1":
+                case "v1_13_R2":
+                    handler = new NMS_1_13_2();
+                	break;
+                case "v1_14_R1":
+                case "v1_14_4_R1":
+                    handler = new NMS_1_14_4();
+                    break;
+                case "v1_15_R1":
+                case "v1_15_1_R1":
+                case "v1_15_2_R1":
+                    handler = new NMS_1_15_2();
+                    break;
+                default:
+                    plugin.getLogger().info("No supported NMS version string detected. Localization will not work.");
+                    break;
+            }
+        }
 
         ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
         UpdateItemStack(stack);
@@ -100,7 +128,8 @@ public class ItemManager {
     public static void openInventory(Player player) {
         player.openInventory(player.getEnderChest());
         player.playSound(player.getLocation(), Sound.BLOCK_ENDER_CHEST_OPEN, .50f, 1);
-        if (Bukkit.getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
+        if (handler != null) {
+            handler.sendOpenPacket(player);
         }
     }
 }
