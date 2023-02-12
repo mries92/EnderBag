@@ -1,5 +1,5 @@
 # EnderBag
-![A plugin for easy ender chest access](web/banner.png)
+![A plugin for easy ender chest access](Web/banner.png)
 ---
 ## Features
 - A configurable custom item which provides access to the ender chest when right clicked.
