@@ -1,13 +1,7 @@
 package org.mries.enderbag;
 
-import org.mries.enderbag.compatibility.NMS_1_13_2;
-import org.mries.enderbag.compatibility.NMS_1_14_4;
-import org.mries.enderbag.compatibility.NMS_1_15_2;
-import org.mries.enderbag.compatibility.PacketHandler;
+import org.mries.enderbag.compatibility.*;
 import org.mries.enderbag.config.EnderBagConfig;
-
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -36,25 +30,25 @@ public class ItemManager {
         if (Bukkit.getServer().getPluginManager().isPluginEnabled("ProtocolLib")) {
             String versionString = Bukkit.getServer().getClass().getPackage().getName();
             String nmsVersionString = versionString.substring(versionString.lastIndexOf('.') + 1);
-            plugin.getLogger().info("Got NMS version string: " + nmsVersionString);
             switch (nmsVersionString) {
-                case "v1_13_R1":
-                case "v1_13_R2":
-                    handler = new NMS_1_13_2();
-                	break;
-                case "v1_14_R1":
-                case "v1_14_4_R1":
-                    handler = new NMS_1_14_4();
+                case "v1_16_R1":
+                case "v1_16_R2":
+                case "v1_16_R3":
+                case "v1_17_R1":
+                case "v1_18_R1":
+                case "v1_18_R2":
+                    handler = new NMS_LEGACY(plugin);
                     break;
-                case "v1_15_R1":
-                case "v1_15_1_R1":
-                case "v1_15_2_R1":
-                    handler = new NMS_1_15_2();
+                case "v1_19_R1":
+                case "v1_19_R2":
+                    handler = new NMS_1_19_RX(plugin);
                     break;
                 default:
-                    plugin.getLogger().info("No supported NMS version string detected. Localization will not work.");
+                    plugin.getLogger().info("No supported NMS version string detected. Plugin has not been updated yet.");
                     break;
             }
+        } else {
+            plugin.getLogger().info("ProtocolLib is not installed. Localized window titles will not work.");
         }
 
         ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
