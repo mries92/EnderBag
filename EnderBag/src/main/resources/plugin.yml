@@ -1,6 +1,6 @@
 name: EnderBag
 author: Roflsausage
-version: 1.2.0
+version: 1.3.1
 main: org.mries.enderbag.EnderBag
 api-version: "1.13"
 softdepend: ["ProtocolLib"]

@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.mries</groupId>
         <artifactId>EnderBag-parent</artifactId>
-        <version>1.3.0</version>
+        <version>1.3.1</version>
     </parent>
 
     <artifactId>NMS_1_19_RX</artifactId>
