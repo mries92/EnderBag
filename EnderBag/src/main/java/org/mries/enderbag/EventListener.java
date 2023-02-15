@@ -15,20 +15,21 @@ import org.bukkit.inventory.ItemStack;
 import org.mries.enderbag.config.EnderBagConfig;
 
 public class EventListener implements Listener {
-    private static EnderBagConfig config = null;
+    private EnderBagConfig config = null;
+    private ItemManager itemManager = null;
 
-    public EventListener(EnderBag plugin) {
-        super();
-        EventListener.config = plugin.getConfiguration();
+    public EventListener(EnderBag plugin, ItemManager itemManager) {
+        config = plugin.getConfiguration();
+        this.itemManager = itemManager;
     }
 
     @EventHandler
-    public static void onRightClick(PlayerInteractEvent event) {
+    public void onRightClick(PlayerInteractEvent event) {
         Action action = event.getAction();
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-            if (item != null && ItemManager.isEnderChest(item)) {
+            if (item != null && itemManager.isEnderChest(item)) {
                 if (player.hasPermission("enderbag.use")) {
                     // If the block is an interactable type, cancel opening the bag
                     Block clickedBlock = event.getClickedBlock();
@@ -40,7 +41,7 @@ public class EventListener implements Listener {
                             return;
                     }
                     event.setCancelled(true);
-                    ItemManager.openInventory(player);
+                    itemManager.openInventory(player);
                 } else {
                     player.sendMessage("§cYou do not have permission to use the " + config.itemName);
                 }
@@ -51,22 +52,22 @@ public class EventListener implements Listener {
     // These handlers will update any old versions of the item when config values
     // are changed
     @EventHandler
-    public static void playerJoin(PlayerJoinEvent event) {
-        event.getPlayer().getInventory().forEach(EventListener::updateItemInInventory);
+    public void playerJoin(PlayerJoinEvent event) {
+        event.getPlayer().getInventory().forEach(e -> updateItemInInventory(e));
     }
 
     @EventHandler
-    public static void inventoryOpen(InventoryOpenEvent event) {
-        event.getInventory().forEach(EventListener::updateItemInInventory);
+    public void inventoryOpen(InventoryOpenEvent event) {
+        event.getInventory().forEach(e -> updateItemInInventory(e));
     }
 
     @EventHandler
-    public static void entityPickup(EntityPickupItemEvent event) {
+    public void entityPickup(EntityPickupItemEvent event) {
         updateItemInInventory(event.getItem().getItemStack());
     }
 
-    private static void updateItemInInventory(ItemStack stack) {
-        if (ItemManager.isEnderChest(stack))
-            ItemManager.UpdateItemStack(stack);
+    private void updateItemInInventory(ItemStack stack) {
+        if (itemManager.isEnderChest(stack))
+            itemManager.UpdateItemStack(stack);
     }
 }

@@ -9,12 +9,18 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class CommandHandler implements CommandExecutor {
+    private ItemManager itemManager = null;
+
+    public CommandHandler(ItemManager itemManager) {
+        this.itemManager = itemManager;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 0) {
             if (sender instanceof Player) {
                 if (sender.hasPermission("enderbag.command")) {
-                    ItemManager.openInventory((Player) sender);
+                    itemManager.openInventory((Player) sender);
                     return true;
                 } else {
                     sender.sendMessage("§cYou do not have permission to do that");
@@ -49,7 +55,7 @@ public class CommandHandler implements CommandExecutor {
 
     private boolean giveBag(CommandSender sender, Player target) {
         ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
-        ItemManager.UpdateItemStack(stack);
+        itemManager.UpdateItemStack(stack);
         if (sender == target) {
             if (sender.hasPermission("enderbag.give.self")) {
                 ((Player) sender).getInventory().addItem(stack);
