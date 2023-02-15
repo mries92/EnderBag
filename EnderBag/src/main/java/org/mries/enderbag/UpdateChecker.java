@@ -11,7 +11,6 @@ import org.bukkit.util.Consumer;
 
 // From: https://www.spigotmc.org/wiki/creating-an-update-checker-that-checks-for-updates
 public class UpdateChecker {
-
     private final JavaPlugin plugin;
     private final int resourceId;
 

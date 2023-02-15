@@ -18,6 +18,10 @@ import org.bukkit.persistence.PersistentDataType;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles logic relating to the custom item, including registering the
+ * keys and activating the custom functionality.
+ */
 public class ItemManager {
     private NamespacedKey enderBagKey = null;
     private EnderBagConfig enderBagConfig = null;

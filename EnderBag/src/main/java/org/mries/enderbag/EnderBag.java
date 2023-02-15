@@ -5,8 +5,6 @@ import org.mries.enderbag.compatibility.NMS_LEGACY;
 import org.mries.enderbag.compatibility.PacketHandler;
 import org.mries.enderbag.config.EnderBagConfig;
 
-import net.md_5.bungee.api.ChatColor;
-
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -24,7 +22,10 @@ public class EnderBag extends JavaPlugin {
         config = new EnderBagConfig(this.getConfig());
         itemManager = new ItemManager(this, handler);
         handler = resolvePacketHandler(this);
+
+        // Register events
         getServer().getPluginManager().registerEvents(new EventListener(this, itemManager), this);
+        // Enable commands
         getCommand("enderbag").setExecutor(new CommandHandler(itemManager));
         getCommand("enderbag").setTabCompleter(new CommandTabCompleter());
         // Enable bstats
@@ -32,7 +33,7 @@ public class EnderBag extends JavaPlugin {
         // Enable update checks
         new UpdateChecker(this, spigotResourceId).getVersion(version -> {
             if (!this.getDescription().getVersion().equals(version)) {
-                Bukkit.getConsoleSender().sendMessage(ChatColor.YELLOW + "[EnderBag] There is a new update available.");
+                getLogger().info("There is a new update available.");
             }
         });
     }

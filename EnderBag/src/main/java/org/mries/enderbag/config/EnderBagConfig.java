@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import java.util.List;
 
+@SuppressWarnings("unchecked")
 public class EnderBagConfig {
     public EnderBagConfig(FileConfiguration config) {
         itemName = config.getString("item-name");
