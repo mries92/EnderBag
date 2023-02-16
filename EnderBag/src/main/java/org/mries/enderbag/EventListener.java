@@ -18,8 +18,8 @@ public class EventListener implements Listener {
     private EnderBagConfig config = null;
     private ItemManager itemManager = null;
 
-    public EventListener(EnderBag plugin, ItemManager itemManager) {
-        config = plugin.getConfiguration();
+    public EventListener(EnderBagConfig config, ItemManager itemManager) {
+        this.config = config;
         this.itemManager = itemManager;
     }
 
@@ -53,21 +53,17 @@ public class EventListener implements Listener {
     // are changed
     @EventHandler
     public void playerJoin(PlayerJoinEvent event) {
-        event.getPlayer().getInventory().forEach(e -> updateItemInInventory(e));
+        event.getPlayer().getInventory().forEach(e -> itemManager.updateItemStack(e));
     }
 
     @EventHandler
     public void inventoryOpen(InventoryOpenEvent event) {
-        event.getInventory().forEach(e -> updateItemInInventory(e));
+        event.getInventory().forEach(e -> itemManager.updateItemStack(e));
     }
 
     @EventHandler
     public void entityPickup(EntityPickupItemEvent event) {
-        updateItemInInventory(event.getItem().getItemStack());
+        itemManager.updateItemStack(event.getItem().getItemStack());
     }
 
-    private void updateItemInInventory(ItemStack stack) {
-        if (itemManager.isEnderChest(stack))
-            itemManager.UpdateItemStack(stack);
-    }
 }

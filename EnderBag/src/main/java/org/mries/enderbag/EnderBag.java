@@ -1,5 +1,7 @@
 package org.mries.enderbag;
 
+import org.mries.enderbag.command.CommandHandler;
+import org.mries.enderbag.command.CommandTabCompleter;
 import org.mries.enderbag.compatibility.NMS_1_19_RX;
 import org.mries.enderbag.compatibility.NMS_LEGACY;
 import org.mries.enderbag.compatibility.PacketHandler;
@@ -24,7 +26,7 @@ public class EnderBag extends JavaPlugin {
         handler = resolvePacketHandler(this);
 
         // Register events
-        getServer().getPluginManager().registerEvents(new EventListener(this, itemManager), this);
+        getServer().getPluginManager().registerEvents(new EventListener(config, itemManager), this);
         // Enable commands
         getCommand("enderbag").setExecutor(new CommandHandler(itemManager));
         getCommand("enderbag").setTabCompleter(new CommandTabCompleter());

@@ -1,4 +1,4 @@
-package org.mries.enderbag;
+package org.mries.enderbag.command;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package org.mries.enderbag;
+package org.mries.enderbag.command;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -7,6 +7,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.mries.enderbag.ItemManager;
 
 public class CommandHandler implements CommandExecutor {
     private ItemManager itemManager = null;
@@ -55,7 +56,7 @@ public class CommandHandler implements CommandExecutor {
 
     private boolean giveBag(CommandSender sender, Player target) {
         ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
-        itemManager.UpdateItemStack(stack);
+        itemManager.updateItemStack(stack);
         if (sender == target) {
             if (sender.hasPermission("enderbag.give.self")) {
                 ((Player) sender).getInventory().addItem(stack);

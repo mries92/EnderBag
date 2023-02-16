@@ -33,7 +33,7 @@ public class ItemManager {
         this.handler = handler;
 
         ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
-        UpdateItemStack(stack);
+        updateItemStack(stack);
 
         ShapedRecipe recipe = new ShapedRecipe(enderBagKey, stack);
         recipe.shape(enderBagConfig.recipeValues.get(0), enderBagConfig.recipeValues.get(1),
@@ -71,33 +71,33 @@ public class ItemManager {
      *
      * @param stack An item stack. Will be updated to the current ender bag
      *              config values.
-     * @return The updated item stack.
      */
-    public ItemStack UpdateItemStack(ItemStack stack) {
-        // Base item
-        stack.setType(Material.ENDER_EYE);
-        stack.setAmount(1);
+    public void updateItemStack(ItemStack stack) {
+        if (isEnderChest(stack)) {
+            // Base item
+            stack.setType(Material.ENDER_EYE);
+            stack.setAmount(1);
 
-        // -- Meta config --
-        ItemMeta meta = stack.getItemMeta();
-        // Display name
-        meta.setDisplayName(enderBagConfig.itemName);
-        // Description
-        List<String> lore = new ArrayList<>();
-        if (enderBagConfig.showDescription)
-            lore.add(enderBagConfig.itemDescription);
-        meta.setLore(lore);
-        // Enchanted appearance
-        if (enderBagConfig.appearEnchanted) {
-            meta.addEnchant(Enchantment.LURE, 1, true);
-            meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        } else {
-            meta.removeEnchant(Enchantment.LURE);
+            // -- Meta config --
+            ItemMeta meta = stack.getItemMeta();
+            // Display name
+            meta.setDisplayName(enderBagConfig.itemName);
+            // Description
+            List<String> lore = new ArrayList<>();
+            if (enderBagConfig.showDescription)
+                lore.add(enderBagConfig.itemDescription);
+            meta.setLore(lore);
+            // Enchanted appearance
+            if (enderBagConfig.appearEnchanted) {
+                meta.addEnchant(Enchantment.LURE, 1, true);
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            } else {
+                meta.removeEnchant(Enchantment.LURE);
+            }
+            meta.getPersistentDataContainer().set(enderBagKey, PersistentDataType.BYTE, (byte) 1);
+            meta.setCustomModelData(10);
+            stack.setItemMeta(meta);
         }
-        meta.getPersistentDataContainer().set(enderBagKey, PersistentDataType.BYTE, (byte) 1);
-        meta.setCustomModelData(10);
-        stack.setItemMeta(meta);
-        return stack;
     }
 
     public void openInventory(Player player) {
