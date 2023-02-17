@@ -53,17 +53,21 @@ public class EventListener implements Listener {
     // are changed
     @EventHandler
     public void playerJoin(PlayerJoinEvent event) {
-        event.getPlayer().getInventory().forEach(e -> itemManager.updateItemStack(e));
+        event.getPlayer().getInventory().forEach(e -> updateItemInInventory(e));
     }
 
     @EventHandler
     public void inventoryOpen(InventoryOpenEvent event) {
-        event.getInventory().forEach(e -> itemManager.updateItemStack(e));
+        event.getInventory().forEach(e -> updateItemInInventory(e));
     }
 
     @EventHandler
     public void entityPickup(EntityPickupItemEvent event) {
-        itemManager.updateItemStack(event.getItem().getItemStack());
+        updateItemInInventory(event.getItem().getItemStack());
     }
 
+    private void updateItemInInventory(ItemStack stack) {
+        if (itemManager.isEnderBag(stack))
+            itemManager.updateItemStack(stack);
+    }
 }
