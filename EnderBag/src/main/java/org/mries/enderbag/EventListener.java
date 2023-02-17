@@ -29,7 +29,7 @@ public class EventListener implements Listener {
         Player player = event.getPlayer();
         ItemStack item = event.getItem();
         if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-            if (item != null && itemManager.isEnderChest(item)) {
+            if (item != null && itemManager.isEnderBag(item)) {
                 if (player.hasPermission("enderbag.use")) {
                     // If the block is an interactable type, cancel opening the bag
                     Block clickedBlock = event.getClickedBlock();

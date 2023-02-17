@@ -54,7 +54,7 @@ public class ItemManager {
      * @param stack An item stack to check.
      * @return true if the stack is an ender bag.
      */
-    public boolean isEnderChest(ItemStack stack) {
+    public boolean isEnderBag(ItemStack stack) {
         if (stack == null)
             return false;
         Byte isEnderBag = stack.getItemMeta().getPersistentDataContainer().get(getEnderBagKey(),
@@ -73,12 +73,10 @@ public class ItemManager {
      *              config values.
      */
     public void updateItemStack(ItemStack stack) {
-        if (isEnderChest(stack)) {
-            // Base item
+        if (isEnderBag(stack)) {
             stack.setType(Material.ENDER_EYE);
             stack.setAmount(1);
-
-            // -- Meta config --
+            // Meta config
             ItemMeta meta = stack.getItemMeta();
             // Display name
             meta.setDisplayName(enderBagConfig.itemName);
