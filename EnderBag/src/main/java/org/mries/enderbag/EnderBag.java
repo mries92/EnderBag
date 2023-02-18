@@ -24,8 +24,8 @@ public class EnderBag extends JavaPlugin {
     public void onEnable() {
         saveDefaultConfig();
         config = new EnderBagConfig(this.getConfig());
-        itemManager = new ItemManager(this, handler);
         handler = resolvePacketHandler(this);
+        itemManager = new ItemManager(this, handler);
 
         // Register events
         getServer().getPluginManager().registerEvents(new EventListener(config, itemManager), this);
@@ -61,6 +61,8 @@ public class EnderBag extends JavaPlugin {
             String versionString = Bukkit.getServer().getClass().getPackage().getName();
             String nmsVersionString = versionString.substring(versionString.lastIndexOf('.') + 1);
             switch (nmsVersionString) {
+                case "v1_14_R1":
+                case "v1_15_R1":
                 case "v1_16_R1":
                 case "v1_16_R2":
                 case "v1_16_R3":
