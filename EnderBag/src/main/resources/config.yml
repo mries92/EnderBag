@@ -11,7 +11,7 @@ appear-enchanted: false
 # resource pack, you will need to update the pack to point to the correct item)
 base-item: "ender_eye"
 # The unique identifier that will be used for the custom model data
-uid: 10
+uid: 8310000
 
 ### Recipe Settings ###
 # Recipe for the item
