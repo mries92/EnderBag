@@ -1,8 +1,4 @@
 ### General Settings ###
-# Enable access to the ender chest via command (permissions still need to be granted)
-enable-command: true
-# Enable the item on the server
-enable-item: true
 # The name of the item in-game
 item-name: "§aEnder Bag"
 # The description of the item in-game
