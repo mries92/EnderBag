@@ -58,8 +58,7 @@ public class ItemManager {
     public boolean isEnderBag(ItemStack stack) {
         if (stack == null)
             return false;
-        Byte isEnderBag = stack.getItemMeta().getPersistentDataContainer().get(getEnderBagKey(),
-                PersistentDataType.BYTE);
+        Byte isEnderBag = stack.getItemMeta().getPersistentDataContainer().get(enderBagKey, PersistentDataType.BYTE);
         if (isEnderBag != null && isEnderBag == 1)
             return true;
         else
