@@ -91,7 +91,7 @@ public class ItemManager {
             meta.removeEnchant(Enchantment.LURE);
         }
         meta.getPersistentDataContainer().set(enderBagKey, PersistentDataType.BYTE, (byte) 1);
-        meta.setCustomModelData(10);
+        meta.setCustomModelData(enderBagConfig.uid);
         stack.setItemMeta(meta);
     }
 
