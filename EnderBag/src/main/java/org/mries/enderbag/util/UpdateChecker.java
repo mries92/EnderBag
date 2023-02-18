@@ -1,4 +1,4 @@
-package org.mries.enderbag;
+package org.mries.enderbag.util;
 
 import java.io.IOException;
 import java.io.InputStream;

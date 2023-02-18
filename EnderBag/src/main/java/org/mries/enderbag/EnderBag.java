@@ -6,7 +6,9 @@ import org.mries.enderbag.compatibility.NMS_1_19_RX;
 import org.mries.enderbag.compatibility.NMS_LEGACY;
 import org.mries.enderbag.compatibility.PacketHandler;
 import org.mries.enderbag.config.EnderBagConfig;
-
+import org.mries.enderbag.event.EventListener;
+import org.mries.enderbag.util.ItemManager;
+import org.mries.enderbag.util.UpdateChecker;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
