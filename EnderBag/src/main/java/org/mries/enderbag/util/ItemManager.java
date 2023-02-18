@@ -1,5 +1,6 @@
-package org.mries.enderbag;
+package org.mries.enderbag.util;
 
+import org.mries.enderbag.EnderBag;
 import org.mries.enderbag.compatibility.*;
 import org.mries.enderbag.config.EnderBagConfig;
 

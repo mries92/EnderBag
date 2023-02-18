@@ -1,4 +1,4 @@
-package org.mries.enderbag;
+package org.mries.enderbag.event;
 
 import org.bukkit.Material;
 import org.bukkit.Tag;
@@ -8,11 +8,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.inventory.*;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.ItemStack;
 import org.mries.enderbag.config.EnderBagConfig;
+import org.mries.enderbag.util.ItemManager;
 
 public class EventListener implements Listener {
     private EnderBagConfig config = null;
