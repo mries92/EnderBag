@@ -6,7 +6,7 @@
   "overrides": [
     {
       "predicate": {
-        "custom_model_data": 8310000
+        "custom_model_data": 831
       },
       "model": "item/ender_bag"
     }
