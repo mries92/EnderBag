@@ -3,6 +3,7 @@ package org.mries.enderbag.event;
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,45 +26,48 @@ public class EventListener implements Listener {
     }
 
     @EventHandler
-    public void onRightClick(PlayerInteractEvent event) {
+    private void onRightClick(PlayerInteractEvent event) {
         Action action = event.getAction();
-        Player player = event.getPlayer();
         ItemStack item = event.getItem();
-        if (action == Action.RIGHT_CLICK_AIR || action == Action.RIGHT_CLICK_BLOCK) {
-            if (item != null && itemManager.isEnderBag(item)) {
-                if (player.hasPermission("enderbag.use")) {
-                    // If the block is an interactable type, cancel opening the bag
-                    Block clickedBlock = event.getClickedBlock();
-                    if (clickedBlock != null) {
-                        Material mat = clickedBlock.getType();
-                        if (mat.isInteractable()
-                                && !Tag.STAIRS.isTagged(mat) // Stairs are for some reason marked interactable
-                                && mat != Material.JUKEBOX) // Default ender eye behavior is to use on jukeboxes
-                            return;
-                    }
-                    event.setCancelled(true);
-                    itemManager.openInventory(player);
-                } else {
-                    player.sendMessage("§cYou do not have permission to use the " + config.itemName);
-                }
+        if (action != Action.RIGHT_CLICK_AIR || action != Action.RIGHT_CLICK_BLOCK)
+            return;
+        if (item == null || !itemManager.isEnderBag(item))
+            return;
+
+        Player player = event.getPlayer();
+        if (player.hasPermission("enderbag.use")) {
+            Block clickedBlock = event.getClickedBlock();
+            if (clickedBlock != null) {
+                Material mat = clickedBlock.getType();
+                // If the player clicked an interactable block, return early
+                if (mat.isInteractable()
+                        && !Tag.STAIRS.isTagged(mat) // Stairs are for some reason marked interactable
+                        && mat != Material.JUKEBOX) // Default ender eye behavior is to use on jukeboxes
+                    return;
             }
+            event.setCancelled(true);
+            itemManager.openInventory(player);
+        } else {
+            player.sendMessage(String.format("§cYou do not have permission to use the %s", config.itemName));
         }
     }
 
     // These handlers will update any old versions of the item when config values
     // are changed
     @EventHandler
-    public void playerJoin(PlayerJoinEvent event) {
+    private void playerJoin(PlayerJoinEvent event) {
         event.getPlayer().getInventory().forEach(e -> updateItemInInventory(e));
     }
 
     @EventHandler
-    public void inventoryOpen(InventoryOpenEvent event) {
+    private void inventoryOpen(InventoryOpenEvent event) {
         event.getInventory().forEach(e -> updateItemInInventory(e));
     }
 
     @EventHandler
-    public void entityPickup(EntityPickupItemEvent event) {
+    private void entityPickup(EntityPickupItemEvent event) {
+        if (event.getEntityType() != EntityType.PLAYER)
+            return;
         updateItemInInventory(event.getItem().getItemStack());
     }
 
