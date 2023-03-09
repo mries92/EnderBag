@@ -2,7 +2,7 @@ name: EnderBag
 author: Roflsausage
 version: ${revision}
 main: org.mries.enderbag.EnderBag
-api-version: "1.13"
+api-version: "1.14"
 softdepend: ["ProtocolLib"]
 permissions:
   enderbag.use:

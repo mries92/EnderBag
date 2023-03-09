@@ -13,7 +13,7 @@ public class EnderBagConfig {
         showDescription = config.getBoolean("show-description", true);
         appearEnchanted = config.getBoolean("appear-enchanted", false);
         baseItem = config.getString("base-item", "ender_eye");
-        uid = config.getInt("uid", 10);
+        uid = config.getInt("uid", 8310000);
 
         config.addDefault("recipe.values", Arrays.asList("DED", "ECE", "DED"));
         recipeValues = config.getStringList("recipe.values");
