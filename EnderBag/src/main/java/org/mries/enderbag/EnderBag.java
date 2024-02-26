@@ -74,6 +74,9 @@ public class EnderBag extends JavaPlugin {
                 case "v1_19_R1":
                 case "v1_19_R2":
                 case "v1_19_R3":
+                case "v1_20_R1":
+                case "v1_20_R2":
+                case "v1_20_R3":
                     handler = new NMS_1_19_RX(plugin);
                     break;
                 default:

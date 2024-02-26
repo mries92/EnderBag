@@ -27,14 +27,14 @@ public class EventListener implements Listener {
 
     @EventHandler
     private void onRightClick(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
         Action action = event.getAction();
         ItemStack item = event.getItem();
-        if (action != Action.RIGHT_CLICK_AIR || action != Action.RIGHT_CLICK_BLOCK)
+        if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK)
             return;
         if (item == null || !itemManager.isEnderBag(item))
             return;
 
-        Player player = event.getPlayer();
         if (player.hasPermission("enderbag.use")) {
             Block clickedBlock = event.getClickedBlock();
             if (clickedBlock != null) {
