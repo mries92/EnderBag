@@ -5,9 +5,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
 import org.bukkit.entity.EntityType;
@@ -57,7 +55,6 @@ public class EventListener implements Listener {
         // Check for the block interacted with
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock != null && clickedBlock.getType().isInteractable()) {
-            Bukkit.getLogger().info("Clicked interactable block");
             Material mat = clickedBlock.getType();
             boolean shouldOpen = true;
 
