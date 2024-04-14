@@ -1,7 +1,15 @@
 package org.mries.enderbag.event;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
+import org.bukkit.block.Jukebox;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,6 +27,10 @@ public class EventListener implements Listener {
     private EnderBagConfig config = null;
     private ItemManager itemManager = null;
 
+    private Set<Material> interactableBlocks = Stream
+            .of(Material.CHEST, Material.BARREL, Material.ENDER_CHEST, Material.SHULKER_BOX, Material.CRAFTING_TABLE)
+            .collect(Collectors.toCollection(HashSet::new));
+
     public EventListener(EnderBagConfig config, ItemManager itemManager) {
         this.config = config;
         this.itemManager = itemManager;
@@ -29,24 +41,52 @@ public class EventListener implements Listener {
         Player player = event.getPlayer();
         Action action = event.getAction();
         ItemStack item = event.getItem();
-        if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK)
-            return;
-        if (item == null || !itemManager.isEnderBag(item))
-            return;
 
-        if (player.hasPermission("enderbag.use")) {
-            Block clickedBlock = event.getClickedBlock();
-            if (clickedBlock != null) {
-                Material mat = clickedBlock.getType();
-                // If the player clicked an interactable block, return early
-                if (mat.isInteractable())
-                    return;
-            }
-            event.setCancelled(true);
-            itemManager.openInventory(player);
-        } else {
-            player.sendMessage(String.format("§cYou do not have permission to use the %s", config.itemName));
+        // Action check
+        if (action != Action.RIGHT_CLICK_AIR && action != Action.RIGHT_CLICK_BLOCK || item == null
+                || !itemManager.isEnderBag(item)) {
+            return;
         }
+
+        // Permission check
+        if (!player.hasPermission("enderbag.use")) {
+            player.sendMessage(String.format("§cYou do not have permission to use the %s", config.itemName));
+            return;
+        }
+
+        // Check for the block interacted with
+        Block clickedBlock = event.getClickedBlock();
+        if (clickedBlock != null && clickedBlock.getType().isInteractable()) {
+            Bukkit.getLogger().info("Clicked interactable block");
+            Material mat = clickedBlock.getType();
+            boolean shouldOpen = true;
+
+            // Check if its one of the predefined interactable blocks
+            if (interactableBlocks.contains(mat)) {
+                shouldOpen = false;
+            }
+            // Handle other specific cases
+            else if (mat == Material.JUKEBOX) {
+                Jukebox jukebox = (Jukebox) clickedBlock.getState();
+                if (jukebox.hasRecord()) {
+                    shouldOpen = false;
+                }
+            }
+
+            // If it's a special case, cancel the event and open the inventory
+            if (shouldOpen) {
+                event.setCancelled(true);
+                itemManager.openInventory(player);
+                return;
+            }
+            // Otherwise, use the normal item behavior
+            else {
+                return;
+            }
+        }
+
+        event.setCancelled(true);
+        itemManager.openInventory(player);
     }
 
     // These handlers will update any old versions of the item when config values
