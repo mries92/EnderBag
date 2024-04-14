@@ -1,7 +1,6 @@
 package org.mries.enderbag.event;
 
 import org.bukkit.Material;
-import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -40,9 +39,7 @@ public class EventListener implements Listener {
             if (clickedBlock != null) {
                 Material mat = clickedBlock.getType();
                 // If the player clicked an interactable block, return early
-                if (mat.isInteractable()
-                        && !Tag.STAIRS.isTagged(mat) // Stairs are for some reason marked interactable
-                        && mat != Material.JUKEBOX) // Default ender eye behavior is to use on jukeboxes
+                if (mat.isInteractable())
                     return;
             }
             event.setCancelled(true);

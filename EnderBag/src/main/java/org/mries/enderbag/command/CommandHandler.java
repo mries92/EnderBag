@@ -55,7 +55,7 @@ public class CommandHandler implements CommandExecutor {
     }
 
     private boolean giveBag(CommandSender sender, Player target) {
-        ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
+        ItemStack stack = new ItemStack(Material.EMERALD, 1);
         itemManager.updateItemStack(stack);
         if (sender == target) {
             if (sender.hasPermission("enderbag.give.self")) {
