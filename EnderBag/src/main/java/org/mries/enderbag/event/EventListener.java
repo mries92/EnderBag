@@ -1,10 +1,5 @@
 package org.mries.enderbag.event;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -25,10 +20,6 @@ import org.mries.enderbag.util.ItemManager;
 public class EventListener implements Listener {
     private EnderBagConfig config = null;
     private ItemManager itemManager = null;
-
-    private Set<Material> interactableBlocks = Stream
-            .of(Material.CHEST, Material.BARREL, Material.ENDER_CHEST, Material.SHULKER_BOX, Material.CRAFTING_TABLE, Material.LEVER)
-            .collect(Collectors.toCollection(HashSet::new));
 
     public EventListener(EnderBagConfig config, ItemManager itemManager) {
         this.config = config;
@@ -57,22 +48,18 @@ public class EventListener implements Listener {
         Block clickedBlock = event.getClickedBlock();
         if (clickedBlock != null && clickedBlock.getType().isInteractable()) {
             Material mat = clickedBlock.getType();
-            boolean shouldOpen = true;
+            boolean shouldOpen = false;
 
-            // Check if its one of the predefined interactable blocks
-            if (interactableBlocks.contains(mat)) {
-                shouldOpen = false;
-            }
-            // Handle other specific cases
-            // Doors, trapdoors, levers, and buttons
-            else if(Tag.WOODEN_DOORS.isTagged(mat) || Tag.WOODEN_TRAPDOORS.isTagged(mat) || Tag.BUTTONS.isTagged(mat)) {
-                shouldOpen = false;
+            // Handle specific cases
+            // Cauldrons
+            if(Tag.CAULDRONS.isTagged(mat)) {
+                shouldOpen = true;
             }
             // Jukeboxes
             else if (mat == Material.JUKEBOX) {
                 Jukebox jukebox = (Jukebox) clickedBlock.getState();
-                if (jukebox.hasRecord()) {
-                    shouldOpen = false;
+                if (!jukebox.hasRecord()) {
+                    shouldOpen = true;
                 }
             }
 
