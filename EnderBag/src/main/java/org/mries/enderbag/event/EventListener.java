@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.Jukebox;
 import org.bukkit.entity.EntityType;
@@ -26,7 +27,7 @@ public class EventListener implements Listener {
     private ItemManager itemManager = null;
 
     private Set<Material> interactableBlocks = Stream
-            .of(Material.CHEST, Material.BARREL, Material.ENDER_CHEST, Material.SHULKER_BOX, Material.CRAFTING_TABLE)
+            .of(Material.CHEST, Material.BARREL, Material.ENDER_CHEST, Material.SHULKER_BOX, Material.CRAFTING_TABLE, Material.LEVER)
             .collect(Collectors.toCollection(HashSet::new));
 
     public EventListener(EnderBagConfig config, ItemManager itemManager) {
@@ -63,6 +64,11 @@ public class EventListener implements Listener {
                 shouldOpen = false;
             }
             // Handle other specific cases
+            // Doors, trapdoors, levers, and buttons
+            else if(Tag.WOODEN_DOORS.isTagged(mat) || Tag.WOODEN_TRAPDOORS.isTagged(mat) || Tag.BUTTONS.isTagged(mat)) {
+                shouldOpen = false;
+            }
+            // Jukeboxes
             else if (mat == Material.JUKEBOX) {
                 Jukebox jukebox = (Jukebox) clickedBlock.getState();
                 if (jukebox.hasRecord()) {
