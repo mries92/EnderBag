@@ -14,7 +14,6 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
-import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.CraftingInventory;
@@ -91,15 +90,6 @@ public class EventListener implements Listener {
         boolean containsEnderBag = Arrays.stream(inv.getContents()).anyMatch(stack -> itemManager.isEnderBag(stack));
         if (containsEnderBag) {
             inv.setResult(null);
-        }
-    }
-
-    // Prevent using the ender bag on armor stands if the material is set to armor
-    @EventHandler
-    private void armorStandEvent(PlayerArmorStandManipulateEvent event) {
-        if(itemManager.isEnderBag(event.getPlayerItem())) {
-            event.setCancelled(true);
-            itemManager.openInventory(event.getPlayer());
         }
     }
 

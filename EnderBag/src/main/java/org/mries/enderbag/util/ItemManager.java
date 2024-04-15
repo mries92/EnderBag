@@ -72,8 +72,7 @@ public class ItemManager {
      *              config values.
      */
     public void updateItemStack(ItemStack stack) {
-        Material mat = Material.getMaterial(enderBagConfig.baseItem.toUpperCase());
-        stack.setType(mat != null ? mat : Material.ENDER_EYE);
+        stack.setType(Material.ENDER_EYE);
         stack.setAmount(1);
         // Meta config
         ItemMeta meta = stack.getItemMeta();
