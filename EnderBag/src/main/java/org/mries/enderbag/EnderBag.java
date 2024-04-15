@@ -82,11 +82,11 @@ public class EnderBag extends JavaPlugin {
                     break;
                 default:
                     plugin.getLogger()
-                            .info("No supported NMS version string detected. Localized window titles will not work.");
+                            .info("No supported NMS version string detected. Ender bag window title will not be localized.");
                     break;
             }
         } else {
-            plugin.getLogger().info("ProtocolLib is not installed. Localized window titles will not work.");
+            plugin.getLogger().info("ProtocolLib is not installed. Ender bag window title will not be localized.");
         }
         return handler;
     }

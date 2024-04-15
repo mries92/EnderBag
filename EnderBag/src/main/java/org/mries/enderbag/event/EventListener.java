@@ -14,10 +14,10 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.CraftingInventory;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.mries.enderbag.config.EnderBagConfig;
 import org.mries.enderbag.util.ItemManager;
@@ -84,13 +84,22 @@ public class EventListener implements Listener {
         itemManager.openInventory(player);
     }
 
+    // Prevent using the ender bag as a crafting ingredient
     @EventHandler
     private void craftEvent(PrepareItemCraftEvent event) {
-        // Prevent using the ender bag as a crafting ingredient
         CraftingInventory inv = event.getInventory();
         boolean containsEnderBag = Arrays.stream(inv.getContents()).anyMatch(stack -> itemManager.isEnderBag(stack));
         if (containsEnderBag) {
             inv.setResult(null);
+        }
+    }
+
+    // Prevent using the ender bag on armor stands if the material is set to armor
+    @EventHandler
+    private void armorStandEvent(PlayerArmorStandManipulateEvent event) {
+        if(itemManager.isEnderBag(event.getPlayerItem())) {
+            event.setCancelled(true);
+            itemManager.openInventory(event.getPlayer());
         }
     }
 

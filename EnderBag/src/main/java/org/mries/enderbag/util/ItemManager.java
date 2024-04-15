@@ -33,7 +33,7 @@ public class ItemManager {
         enderBagConfig = plugin.getConfiguration();
         this.handler = handler;
 
-        ItemStack stack = new ItemStack(Material.EMERALD, 1);
+        ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
         updateItemStack(stack);
 
         ShapedRecipe recipe = new ShapedRecipe(enderBagKey, stack);
@@ -72,7 +72,8 @@ public class ItemManager {
      *              config values.
      */
     public void updateItemStack(ItemStack stack) {
-        stack.setType(Material.EMERALD);
+        Material mat = Material.getMaterial(enderBagConfig.baseItem.toUpperCase());
+        stack.setType(mat != null ? mat : Material.ENDER_EYE);
         stack.setAmount(1);
         // Meta config
         ItemMeta meta = stack.getItemMeta();

@@ -12,6 +12,7 @@ public class EnderBagConfig {
         itemDescription = config.getString("item-description", "§bOpen your ender chest");
         showDescription = config.getBoolean("show-description", true);
         appearEnchanted = config.getBoolean("appear-enchanted", false);
+        baseItem = config.getString("base-item", "ender_eye");
         uid = config.getInt("uid", 8310000);
 
         config.addDefault("recipe.values", Arrays.asList("DED", "ECE", "DED"));
@@ -27,6 +28,7 @@ public class EnderBagConfig {
     public final String itemDescription;
     public final Boolean showDescription;
     public final Boolean appearEnchanted;
+    public final String baseItem;
     public final Integer uid;
 
     public final List<String> recipeValues;
