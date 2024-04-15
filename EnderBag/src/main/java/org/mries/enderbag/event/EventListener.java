@@ -1,5 +1,7 @@
 package org.mries.enderbag.event;
 
+import java.util.Arrays;
+
 import org.bukkit.Material;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
@@ -11,8 +13,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.CraftingInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.mries.enderbag.config.EnderBagConfig;
 import org.mries.enderbag.util.ItemManager;
@@ -51,8 +56,8 @@ public class EventListener implements Listener {
             boolean shouldOpen = false;
 
             // Handle specific cases
-            // Cauldrons
-            if(Tag.CAULDRONS.isTagged(mat)) {
+            // Cauldrons and fences
+            if (Tag.CAULDRONS.isTagged(mat) || Tag.FENCES.isTagged(mat)) {
                 shouldOpen = true;
             }
             // Jukeboxes
@@ -77,6 +82,16 @@ public class EventListener implements Listener {
 
         event.setCancelled(true);
         itemManager.openInventory(player);
+    }
+
+    @EventHandler
+    private void craftEvent(PrepareItemCraftEvent event) {
+        // Prevent using the ender bag as a crafting ingredient
+        CraftingInventory inv = event.getInventory();
+        boolean containsEnderBag = Arrays.stream(inv.getContents()).anyMatch(stack -> itemManager.isEnderBag(stack));
+        if (containsEnderBag) {
+            inv.setResult(null);
+        }
     }
 
     // These handlers will update any old versions of the item when config values
