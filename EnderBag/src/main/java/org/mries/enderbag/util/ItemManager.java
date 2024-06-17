@@ -73,7 +73,7 @@ public class ItemManager {
      */
     public void updateItemStack(ItemStack stack) {
         stack.setType(Material.ENDER_EYE);
-        stack.setAmount(1);
+        // stack.setAmount(1);
         // Meta config
         ItemMeta meta = stack.getItemMeta();
         // Display name

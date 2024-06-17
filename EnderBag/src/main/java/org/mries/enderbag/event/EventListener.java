@@ -66,6 +66,8 @@ public class EventListener implements Listener {
                     shouldOpen = true;
                 }
             }
+            // TODO: Handle bookshelves
+            
 
             // If it's a special case, cancel the event and open the inventory
             if (shouldOpen) {
@@ -87,7 +89,7 @@ public class EventListener implements Listener {
     @EventHandler
     private void craftEvent(PrepareItemCraftEvent event) {
         CraftingInventory inv = event.getInventory();
-        boolean containsEnderBag = Arrays.stream(inv.getContents()).anyMatch(stack -> itemManager.isEnderBag(stack));
+        boolean containsEnderBag = Arrays.stream(inv.getMatrix()).anyMatch(stack -> itemManager.isEnderBag(stack));
         if (containsEnderBag) {
             inv.setResult(null);
         }
