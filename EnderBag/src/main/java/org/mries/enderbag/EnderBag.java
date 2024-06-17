@@ -77,15 +77,17 @@ public class EnderBag extends JavaPlugin {
                 case "v1_20_R1":
                 case "v1_20_R2":
                 case "v1_20_R3":
+                case "v1_20_R4":
+                case "v1_21_R1":
                     handler = new NMS_1_19_RX(plugin);
                     break;
                 default:
                     plugin.getLogger()
-                            .info("No supported NMS version string detected. Plugin has not been updated yet.");
+                            .info("No supported NMS version string detected. Ender bag window title will not be localized.");
                     break;
             }
         } else {
-            plugin.getLogger().info("ProtocolLib is not installed. Localized window titles will not work.");
+            plugin.getLogger().info("ProtocolLib is not installed. Ender bag window title will not be localized.");
         }
         return handler;
     }

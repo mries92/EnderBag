@@ -33,7 +33,7 @@ public class ItemManager {
         enderBagConfig = plugin.getConfiguration();
         this.handler = handler;
 
-        ItemStack stack = new ItemStack(Material.EMERALD, 1);
+        ItemStack stack = new ItemStack(Material.ENDER_EYE, 1);
         updateItemStack(stack);
 
         ShapedRecipe recipe = new ShapedRecipe(enderBagKey, stack);
@@ -56,7 +56,7 @@ public class ItemManager {
      * @return true if the stack is an ender bag.
      */
     public boolean isEnderBag(ItemStack stack) {
-        if (stack == null)
+        if (stack == null || stack.getItemMeta() == null)
             return false;
         Byte isEnderBag = stack.getItemMeta().getPersistentDataContainer().get(enderBagKey, PersistentDataType.BYTE);
         if (isEnderBag != null && isEnderBag == 1)
@@ -72,8 +72,8 @@ public class ItemManager {
      *              config values.
      */
     public void updateItemStack(ItemStack stack) {
-        stack.setType(Material.EMERALD);
-        stack.setAmount(1);
+        stack.setType(Material.ENDER_EYE);
+        // stack.setAmount(1);
         // Meta config
         ItemMeta meta = stack.getItemMeta();
         // Display name
