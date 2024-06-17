@@ -1,4 +1,4 @@
-changed
-- Fixed interact event throwing ender bag
+1.5.0
+- Fixed interact event throwing ender bag in some cases (fences, jukebox, cauldron)
 - Fixed ender bag being usable as its base item in crafting
-- Bumped nms for localization of 1.19.4
+- Bumped NMS check for 1.19 - 1.21
