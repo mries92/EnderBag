@@ -18,6 +18,7 @@ import org.bukkit.persistence.PersistentDataType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Handles logic relating to the custom item, including registering the
@@ -29,7 +30,7 @@ public class ItemManager {
     private PacketHandler handler = null;
 
     public ItemManager(EnderBag plugin, PacketHandler handler) {
-        enderBagKey = new NamespacedKey(plugin, "isEnderBag"); // Tag key to indicate ender bag
+        enderBagKey = new NamespacedKey(plugin, "isEnderBag");
         enderBagConfig = plugin.getConfiguration();
         this.handler = handler;
 
@@ -58,8 +59,9 @@ public class ItemManager {
     public boolean isEnderBag(ItemStack stack) {
         if (stack == null || stack.getItemMeta() == null)
             return false;
-        Byte isEnderBag = stack.getItemMeta().getPersistentDataContainer().get(enderBagKey, PersistentDataType.BYTE);
-        if (isEnderBag != null && isEnderBag == 1)
+        boolean isEnderBag = stack.getItemMeta().getPersistentDataContainer().has(enderBagKey, PersistentDataType.STRING);
+        boolean isLegacyEnderBag = stack.getItemMeta().getPersistentDataContainer().has(enderBagKey, PersistentDataType.BYTE);
+        if (isEnderBag || isLegacyEnderBag)
             return true;
         else
             return false;
@@ -73,7 +75,7 @@ public class ItemManager {
      */
     public void updateItemStack(ItemStack stack) {
         stack.setType(Material.ENDER_EYE);
-        // stack.setAmount(1);
+        stack.setAmount(1);
         // Meta config
         ItemMeta meta = stack.getItemMeta();
         // Display name
@@ -90,7 +92,8 @@ public class ItemManager {
         } else {
             meta.removeEnchant(Enchantment.LURE);
         }
-        meta.getPersistentDataContainer().set(enderBagKey, PersistentDataType.BYTE, (byte) 1);
+        // Add a key to the item to indicate it is an ender bag, use random UUID to prevent stacking
+        meta.getPersistentDataContainer().set(enderBagKey, PersistentDataType.STRING, UUID.randomUUID().toString());
         meta.setCustomModelData(enderBagConfig.uid);
         stack.setItemMeta(meta);
     }

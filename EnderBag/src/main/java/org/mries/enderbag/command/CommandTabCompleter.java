@@ -14,7 +14,7 @@ public class CommandTabCompleter implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String label, String[] args) {
         if (args.length == 1) {
-            return Arrays.asList("give");
+            return Arrays.asList("give","recipe");
         } else if (args.length == 2) {
             if (args[1] == "give") {
                 List<String> returnList = new ArrayList<>();
@@ -22,7 +22,8 @@ public class CommandTabCompleter implements TabCompleter {
                     returnList.add(player.getName());
                 }
                 return returnList;
-            } else {
+            }
+            else {
                 return null;
             }
         }

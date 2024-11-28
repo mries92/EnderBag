@@ -12,10 +12,15 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityPickupItemEvent;
+import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.inventory.InventoryType.SlotType;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.AnvilInventory;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.mries.enderbag.config.EnderBagConfig;
@@ -83,6 +88,16 @@ public class EventListener implements Listener {
 
         event.setCancelled(true);
         itemManager.openInventory(player);
+    }
+
+    // Allow renaming the item at the anvil while preserving other stack data
+    private void renameEvent(InventoryClickEvent event) {
+        if (event.getInventory().getType() != InventoryType.ANVIL) return;
+        if(event.getSlotType() == SlotType.RESULT) return;
+        event.setCancelled(true);
+        AnvilInventory inv = (AnvilInventory) event.getInventory();
+        // Set the new name
+        event.getCurrentItem().getItemMeta().setDisplayName(inv.getRenameText());
     }
 
     // Prevent using the ender bag as a crafting ingredient
